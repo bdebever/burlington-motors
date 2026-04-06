@@ -1,31 +1,19 @@
-version: '3'
+# Local Postgres for development (matches production adapter).
+# Run: docker compose up -d
+# Then copy .env.example → .env and set DATABASE_URL to:
+#   postgresql://postgres:devpass@127.0.0.1:5432/burlington
 
 services:
-  payload:
-    image: node:18-alpine
+  postgres:
+    image: postgres:15-alpine
     ports:
-      - '3000:3000'
+      - '5432:5432'
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: devpass
+      POSTGRES_DB: burlington
     volumes:
-      - .:/home/node/app
-      - node_modules:/home/node/app/node_modules
-    working_dir: /home/node/app/
-    command: sh -c "yarn install && yarn dev"
-    depends_on:
-      - mongo
-    env_file:
-      - .env
-
-  mongo:
-    image: mongo:latest
-    ports:
-      - '27017:27017'
-    command:
-      - --storageEngine=wiredTiger
-    volumes:
-      - data:/data/db
-    logging:
-      driver: none
+      - burlington_pgdata:/var/lib/postgresql/data
 
 volumes:
-  data:
-  node_modules:
+  burlington_pgdata:

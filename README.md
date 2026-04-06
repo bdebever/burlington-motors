@@ -1,8 +1,12 @@
-# Payload Website Template
+# Burlington Motors (burlingtonacton.co.uk)
 
-This is the official [Payload Website Template](https://github.com/payloadcms/payload/blob/main/templates/website). Use it to power websites, blogs, or portfolios from small to enterprise. This repo includes a fully-working backend, enterprise-grade admin panel, and a beautifully designed, production-ready website.
+Rebuild of [Burlington Motors](https://www.burlingtonacton.co.uk/) using **Next.js**, **Payload CMS**, and **PostgreSQL**. This repo started from the official [Payload Website Template](https://github.com/payloadcms/payload/blob/main/templates/website) and is customized for this project.
 
-This template is right for you if you are working on:
+**Cloud:** push this repo to GitHub, then in [Render](https://render.com/) choose **New → Blueprint**, connect the repo, and apply `render.yaml` (web + Postgres + migrations on deploy). Set `NEXT_PUBLIC_SERVER_URL` to your `https://…onrender.com` URL (or custom domain) after the first deploy, then redeploy.
+
+---
+
+The template is suitable if you are working on:
 
 - A personal or enterprise-grade website, blog, or portfolio
 - A content publishing platform with a fully featured publication workflow
@@ -39,10 +43,11 @@ pnpx create-payload-app my-project -t website
 
 ### Development
 
-1. First [clone the repo](#clone) if you have not done so already
-1. `cd my-project && cp .env.example .env` to copy the example environment variables
-1. `pnpm install && pnpm dev` to install dependencies and start the dev server
-1. open `http://localhost:3000` to open the app in your browser
+1. [Clone the repo](#clone) if you have not done so already.
+1. Start Postgres: `docker compose up -d` (see `docker-compose.yml`).
+1. `cp .env.example .env` and set `DATABASE_URL` (see comments in `.env.example`).
+1. `npm install && npm run migrate && npm run dev`
+1. Open `http://localhost:3000` — create an admin user at `/admin` when prompted.
 
 That's it! Changes made in `./src` will be reflected in your app. Follow the on-screen instructions to login and create your first admin user. Then check out [Production](#production) once you're ready to build and serve your app, and [Deployment](#deployment) when you're ready to go live.
 

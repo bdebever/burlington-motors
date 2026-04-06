@@ -1,0 +1,35 @@
+# Render Blueprint: Web + Postgres in one dashboard.
+# New → Blueprint → Connect this repo → Render provisions DB + web service.
+# After first deploy, set NEXT_PUBLIC_SERVER_URL in the dashboard to your service URL
+# (or custom domain), then redeploy so the public URL is baked into the client bundle.
+
+databases:
+  - name: burlington-motors-db
+    databaseName: burlington_motors
+    user: burlington
+
+services:
+  - type: web
+    name: burlington-motors
+    runtime: node
+    plan: starter
+    region: frankfurt
+    buildCommand: npm install && npm run build
+    preDeployCommand: npm run migrate
+    startCommand: npm run start
+    healthCheckPath: /
+    envVars:
+      - key: NODE_VERSION
+        value: "20.18.1"
+      - key: DATABASE_URL
+        fromDatabase:
+          name: burlington-motors-db
+          property: connectionString
+      - key: PAYLOAD_SECRET
+        generateValue: true
+      - key: PREVIEW_SECRET
+        generateValue: true
+      - key: CRON_SECRET
+        generateValue: true
+      - key: NEXT_PUBLIC_SERVER_URL
+        sync: false
