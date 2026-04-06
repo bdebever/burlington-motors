@@ -1,13 +1,13 @@
 # Local Postgres for development (matches production adapter).
 # Run: docker compose up -d
-# Then copy .env.example → .env and set DATABASE_URL to:
-#   postgresql://postgres:devpass@127.0.0.1:5432/burlington
+# Host port 5433 avoids clashing with a local Postgres on 5432 (Homebrew, etc.).
+# DATABASE_URL in .env.example uses 5433 accordingly.
 
 services:
   postgres:
     image: postgres:15-alpine
     ports:
-      - '5432:5432'
+      - '5433:5432'
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: devpass

@@ -44,8 +44,8 @@ pnpx create-payload-app my-project -t website
 ### Development
 
 1. [Clone the repo](#clone) if you have not done so already.
-1. Start Postgres: `docker compose up -d` (see `docker-compose.yml`).
-1. `cp .env.example .env` and set `DATABASE_URL` (see comments in `.env.example`).
+1. Start Postgres: `docker compose up -d` (see `docker-compose.yml`). The DB is exposed on **host port 5433** so it does not clash with another Postgres on `5432` (e.g. Homebrew). After changing ports, run `docker compose up -d --force-recreate`.
+1. `cp .env.example .env` — the example includes a working local `DATABASE_URL`; adjust only if you change credentials in `docker-compose.yml`.
 1. `npm install && npm run migrate && npm run dev`
 1. Open `http://localhost:3000` — create an admin user at `/admin` when prompted.
 
