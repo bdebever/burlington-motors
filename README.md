@@ -46,8 +46,12 @@ pnpx create-payload-app my-project -t website
 1. [Clone the repo](#clone) if you have not done so already.
 1. Start Postgres: `docker compose up -d` (see `docker-compose.yml`). The DB is exposed on **host port 5433** so it does not clash with another Postgres on `5432` (e.g. Homebrew). After changing ports, run `docker compose up -d --force-recreate`.
 1. `cp .env.example .env` — the example includes a working local `DATABASE_URL`; adjust only if you change credentials in `docker-compose.yml`.
-1. `npm install && npm run migrate && npm run dev`
-1. Open `http://localhost:3000` — create an admin user at `/admin` when prompted.
+1. `npm install && npm run migrate && npm run seed && npm run dev`
+1. Open `http://localhost:3000` — log in at `/admin` (first visit creates your admin user if the DB is empty).
+
+**Seed content:** `npm run seed` loads the template demo (home page, posts, contact, nav). You can also click **“Seed your database”** on the admin dashboard while `npm run dev` is running. Seeding clears most content collections but **does not remove your admin user**; it adds a separate demo author (`demo-author@example.com`).
+
+**Finding your account:** In the admin sidebar, open **Users** — your login should be listed there alongside the demo author after seeding.
 
 That's it! Changes made in `./src` will be reflected in your app. Follow the on-screen instructions to login and create your first admin user. Then check out [Production](#production) once you're ready to build and serve your app, and [Deployment](#deployment) when you're ready to go live.
 

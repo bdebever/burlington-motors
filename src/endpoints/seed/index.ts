@@ -170,9 +170,11 @@ export const seed = async ({
   })
 
   // update each post with related posts
+  const relatedContext = { disableRevalidate: true as const }
   await payload.update({
     id: post1Doc.id,
     collection: 'posts',
+    context: relatedContext,
     data: {
       relatedPosts: [post2Doc.id, post3Doc.id],
     },
@@ -180,6 +182,7 @@ export const seed = async ({
   await payload.update({
     id: post2Doc.id,
     collection: 'posts',
+    context: relatedContext,
     data: {
       relatedPosts: [post1Doc.id, post3Doc.id],
     },
@@ -187,6 +190,7 @@ export const seed = async ({
   await payload.update({
     id: post3Doc.id,
     collection: 'posts',
+    context: relatedContext,
     data: {
       relatedPosts: [post1Doc.id, post2Doc.id],
     },
@@ -202,24 +206,29 @@ export const seed = async ({
 
   payload.logger.info(`— Seeding pages...`)
 
+  const pageSeedContext = { disableRevalidate: true as const }
   const [_, contactPage] = await Promise.all([
     payload.create({
       collection: 'pages',
       depth: 0,
+      context: pageSeedContext,
       data: home({ heroImage: imageHomeDoc, metaImage: image2Doc }),
     }),
     payload.create({
       collection: 'pages',
       depth: 0,
+      context: pageSeedContext,
       data: contactPageData({ contactForm: contactForm }),
     }),
   ])
 
   payload.logger.info(`— Seeding globals...`)
 
+  const globalSeedContext = { disableRevalidate: true as const }
   await Promise.all([
     payload.updateGlobal({
       slug: 'header',
+      context: globalSeedContext,
       data: {
         navItems: [
           {
@@ -244,6 +253,7 @@ export const seed = async ({
     }),
     payload.updateGlobal({
       slug: 'footer',
+      context: globalSeedContext,
       data: {
         navItems: [
           {
